@@ -1,0 +1,30 @@
+postgresql:
+  image: sameersbn/postgresql:9.4
+  environment:
+    - DB_USER=gitlab
+    - DB_PASS=secretpassword
+    - DB_NAME=gitlabhq_production
+
+gitlab:
+  image: sameersbn/gitlab:7.10.0
+  links:
+   - redis:redisio
+   - postgresql:postgresql
+  ports:
+   - "10080:80"
+   - "10022:22"
+
+redis:
+  image: sameersbn/redis:latest
+
+nbviewer:
+  build: .
+  command: python -m nbviewer --port=8080
+  links:
+  - nbcache
+  - gitlab
+  ports:
+   - "8080:8080"
+
+nbcache:
+  image: memcached
