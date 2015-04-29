@@ -1,9 +1,10 @@
 FROM nbviewer_nbviewer:latest
 
 USER root
-ADD . /srv/nbviewer-gitlab
 WORKDIR /srv/nbviewer-gitlab
-RUN python setup.py install
+
+ADD . /srv/nbviewer-gitlab/
+RUN python setup.py develop
 
 WORKDIR /srv/nbviewer
 USER nobody

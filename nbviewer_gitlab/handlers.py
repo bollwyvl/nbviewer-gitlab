@@ -37,7 +37,7 @@ PROVIDER_CTX = {
 }
 
 
-class GithubClientMixin(object):
+class GitLabClientMixin(object):
     @property
     def gitlab_client(self):
         """Create an upgraded gitlab API client from the HTTP client"""
@@ -56,7 +56,7 @@ class RawGitLabURLHandler(BaseHandler):
         self.redirect(new_url)
 
 
-class GitLabRedirectHandler(GithubClientMixin, BaseHandler):
+class GitLabRedirectHandler(GitLabClientMixin, BaseHandler):
     """redirect gitlab blob|tree|raw urls to /gitlab/ API urls"""
     def get(self, user, repo, app, ref, path):
         if app == 'raw':
@@ -69,7 +69,7 @@ class GitLabRedirectHandler(GithubClientMixin, BaseHandler):
         self.redirect(new_url)
 
 
-class GitLabUserHandler(GithubClientMixin, BaseHandler):
+class GitLabUserHandler(GitLabClientMixin, BaseHandler):
     """list a user's gitlab repos"""
     @cached
     @gen.coroutine
@@ -105,7 +105,7 @@ class GitLabRepoHandler(BaseHandler):
         self.redirect("%s/gitlab/%s/%s/tree/master/" % (self.format_prefix, user, repo))
 
 
-class GitLabTreeHandler(GithubClientMixin, BaseHandler):
+class GitLabTreeHandler(GitLabClientMixin, BaseHandler):
     """list files in a gitlab repo (like gitlab tree)"""
     @cached
     @gen.coroutine
@@ -210,7 +210,7 @@ class GitLabTreeHandler(GithubClientMixin, BaseHandler):
         raise gen.Return(ref_data)
 
 
-class GitLabBlobHandler(GithubClientMixin, RenderingHandler):
+class GitLabBlobHandler(GitLabClientMixin, RenderingHandler):
     """handler for files on gitlab
 
     If it's a...
@@ -293,9 +293,6 @@ def default_handlers(handlers=[]):
     """Tornado handlers"""
 
     return [
-        (r'/url[s]?/gitlab\.com/([^\/]+)/([^\/]+)/(tree|blob|raw)/([^\/]+)/(.*)', GitLabRedirectHandler),
-        (r'/url[s]?/raw\.?gitlab(?:usercontent)?\.com/([^\/]+)/([^\/]+)/(.*)', RawGitLabURLHandler),
-    ] + handlers + [
         (r'/gitlab/([^\/]+)', AddSlashHandler),
         (r'/gitlab/([^\/]+)/', GitLabUserHandler),
         (r'/gitlab/([^\/]+)/([^\/]+)', AddSlashHandler),

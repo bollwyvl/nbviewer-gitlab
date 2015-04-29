@@ -29,6 +29,9 @@ setup_args = dict(
         'Programming Language :: Python :: 3.3',
     ],
     test_suite="nose.collector",
+    setup_requires=[
+        "python-gitlab"
+    ],
     entry_points={
         "nbviewer.provider.handlers": [
             "gitlab = nbviewer_gitlab:default_handlers"

@@ -12,7 +12,8 @@ original [issue](/jupyter/nbviewer/issues/428).
 
 
 ## Developing
-Install docker and docker-compose.
+Install [docker](https://docs.docker.com/installation/) and 
+[docker-compose](http://docs.docker.com/compose/install/).
 
 ```
 docker-compose up
@@ -22,10 +23,9 @@ When it is finished, you should have:
 - a GitLab instance running on [10080](http://localhost:10080)
 - an nbviewer instance running on [8080](http://localhost:8080)
 
-
 ## Roadmap
 - [ ] Inject some sample notebooks?
-  - maybe this repo?
-  - baked-in, or scripts after the fact?
+  - [ ] maybe this repo?
+  - [ ] baked-in, or scripts after the fact?
 - [ ] Implement user proxy?
 - [ ] Deployment post?
